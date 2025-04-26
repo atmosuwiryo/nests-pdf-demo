@@ -16,6 +16,7 @@ export class QuotationService {
   }
 
   async generatePdf(createQuotationDto: CreateQuotationDto): Promise<any> {
+    console.log('companyLogo: ', createQuotationDto.companyLogo);
     // Render the HTML content using Handlebars
     const htmlContent = this.template(createQuotationDto);
 
@@ -64,6 +65,7 @@ export class QuotationService {
 
     return {
       companyName: 'Acme Corporation',
+      companyLogo: 'acme-corporation-logo.png',
       companyAddress: '123 Business Avenue, Tech City, TC 12345',
       companyPhone: '+1-555-123-4567',
       companyEmail: 'contact@acmecorp.com',

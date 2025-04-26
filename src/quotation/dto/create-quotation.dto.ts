@@ -1,5 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { Type } from 'class-transformer';
+import { Transform, Type } from 'class-transformer';
 import {
   IsString,
   IsNotEmpty,
@@ -50,9 +50,10 @@ export class CreateQuotationDto {
   @IsNotEmpty()
   companyName: string;
 
-  @ApiPropertyOptional({ example: 'path/to/logo.png' })
+  @ApiPropertyOptional({ example: 'demo-corporation-logo.png' })
   @IsString()
   @IsOptional()
+  @Transform(({ value }) => process.env.HOST + '/images/' + value.trim())
   companyLogo?: string;
 
   @ApiProperty({ example: '123 Business Street, City, Country' })
