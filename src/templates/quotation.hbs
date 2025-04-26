@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quotation - {{quotationNumber}}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+            line-height: 1.6;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 40px;
+        }
+        .logo {
+            max-width: 200px;
+            height: auto;
+        }
+        .company-info {
+            text-align: right;
+        }
+        .quotation-title {
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            margin: 30px 0;
+            color: #2c3e50;
+        }
+        .quotation-meta {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+        }
+        .client-info, .quotation-info {
+            width: 48%;
+        }
+        .section-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #2c3e50;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f8f9fa;
+            font-weight: bold;
+        }
+        .text-right {
+            text-align: right;
+        }
+        .total-row {
+            font-weight: bold;
+            background-color: #f8f9fa;
+        }
+        .terms-conditions {
+            margin-top: 40px;
+        }
+        .signature {
+            margin-top: 60px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .signature-box {
+            width: 45%;
+        }
+        .signature-line {
+            border-top: 1px solid #000;
+            margin-top: 50px;
+            padding-top: 10px;
+        }
+        .footer {
+            margin-top: 60px;
+            text-align: center;
+            font-size: 12px;
+            color: #777;
+            border-top: 1px solid #ddd;
+            padding-top: 20px;
+        }
+        .notes {
+            margin-top: 30px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-left: 4px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div>
+            {{#if companyLogo}}
+            <img src="{{companyLogo}}" alt="Company Logo" class="logo">
+            {{else}}
+            <h2>{{companyName}}</h2>
+            {{/if}}
+        </div>
+        <div class="company-info">
+            <h3>{{companyName}}</h3>
+            <p>{{companyAddress}}</p>
+            <p>Phone: {{companyPhone}}</p>
+            <p>Email: {{companyEmail}}</p>
+            {{#if companyWebsite}}
+            <p>Website: {{companyWebsite}}</p>
+            {{/if}}
+        </div>
+    </div>
+
+    <div class="quotation-title">
+        QUOTATION
+    </div>
+
+    <div class="quotation-meta">
+        <div class="client-info">
+            <div class="section-title">Client Information</div>
+            <p><strong>{{clientName}}</strong></p>
+            <p>{{clientAddress}}</p>
+            {{#if clientPhone}}
+            <p>Phone: {{clientPhone}}</p>
+            {{/if}}
+            {{#if clientEmail}}
+            <p>Email: {{clientEmail}}</p>
+            {{/if}}
+            {{#if clientContactPerson}}
+            <p>Contact Person: {{clientContactPerson}}</p>
+            {{/if}}
+        </div>
+        <div class="quotation-info">
+            <div class="section-title">Quotation Details</div>
+            <p><strong>Quotation #:</strong> {{quotationNumber}}</p>
+            <p><strong>Date:</strong> {{quotationDate}}</p>
+            <p><strong>Valid Until:</strong> {{validUntil}}</p>
+            {{#if projectName}}
+            <p><strong>Project:</strong> {{projectName}}</p>
+            {{/if}}
+            {{#if referenceNumber}}
+            <p><strong>Reference #:</strong> {{referenceNumber}}</p>
+            {{/if}}
+        </div>
+    </div>
+
+    <div class="section-title">Items</div>
+    <table>
+        <thead>
+            <tr>
+                <th>No.</th>
+                <th>Description</th>
+                <th>Quantity</th>
+                <th>Unit Price</th>
+                <th class="text-right">Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each items}}
+            <tr>
+                <td>{{@index}}</td>
+                <td>
+                    <strong>{{this.name}}</strong>
+                    {{#if this.description}}
+                    <br><small>{{this.description}}</small>
+                    {{/if}}
+                </td>
+                <td>{{this.quantity}} {{this.unit}}</td>
+                <td>{{currency}}{{this.unitPrice}}</td>
+                <td class="text-right">{{currency}}{{this.amount}}</td>
+            </tr>
+            {{/each}}
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="4" class="text-right"><strong>Subtotal:</strong></td>
+                <td class="text-right">{{currency}}{{subtotal}}</td>
+            </tr>
+            {{#if discount}}
+            <tr>
+                <td colspan="4" class="text-right"><strong>Discount:</strong></td>
+                <td class="text-right">{{currency}}{{discount}}</td>
+            </tr>
+            {{/if}}
+            {{#if tax}}
+            <tr>
+                <td colspan="4" class="text-right"><strong>Tax ({{taxRate}}%):</strong></td>
+                <td class="text-right">{{currency}}{{tax}}</td>
+            </tr>
+            {{/if}}
+            <tr class="total-row">
+                <td colspan="4" class="text-right"><strong>Total:</strong></td>
+                <td class="text-right">{{currency}}{{total}}</td>
+            </tr>
+        </tfoot>
+    </table>
+
+    {{#if notes}}
+    <div class="notes">
+        <div class="section-title">Notes</div>
+        <p>{{notes}}</p>
+    </div>
+    {{/if}}
+
+    <div class="terms-conditions">
+        <div class="section-title">Terms and Conditions</div>
+        <ol>
+            {{#each termsAndConditions}}
+            <li>{{this}}</li>
+            {{/each}}
+        </ol>
+    </div>
+
+    <div class="signature">
+        <div class="signature-box">
+            <p class="signature-line">Authorized Signature</p>
+            <p>{{companyName}}</p>
+        </div>
+        <div class="signature-box">
+            <p class="signature-line">Client Acceptance</p>
+            <p>{{clientName}}</p>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>Thank you for your business!</p>
+        <p>This quotation was generated on {{generatedDate}}</p>
+        {{#if paymentInstructions}}
+        <p>{{paymentInstructions}}</p>
+        {{/if}}
+    </div>
+</body>
+</html>
+
