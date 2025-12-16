@@ -20,7 +20,7 @@ async function bootstrap() {
   // Swagger
   const document = SwaggerModule.createDocument(app, swaggerConfig);
   if (process.env.NODE_ENV !== 'production') {
-    SwaggerModule.setup(config.get('API_PATH', 'docs/'), app, document);
+    SwaggerModule.setup(config.get('API_PATH', 'docs'), app, document);
   }
 
   await app.listen(process.env.PORT ?? 3000);
