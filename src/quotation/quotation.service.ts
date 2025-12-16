@@ -21,7 +21,9 @@ export class QuotationService {
     const htmlContent = this.template(createQuotationDto);
 
     // Launch Puppeteer and generate PDF
-    const browser = await puppeteer.launch();
+    const browser = await puppeteer.launch({
+      args: ['--no-sandbox'],
+    });
     // {
     //   headless: 'new',
     //   args: ['--no-sandbox', '--disable-setuid-sandbox']
